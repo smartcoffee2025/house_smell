@@ -1,0 +1,147 @@
+
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>우리 집 냄새 유형 테스트</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 20px;
+      line-height: 1.6;
+    }
+    h1, h2 {
+      text-align: center;
+    }
+    .question {
+      margin-bottom: 20px;
+    }
+    button {
+      display: block;
+      margin: 30px auto;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    .result {
+      display: none;
+      padding: 20px;
+      border: 1px solid #ccc;
+      background-color: #f9f9f9;
+    }
+  </style>
+</head>
+<body>
+  <h1>우리 집 냄새 유형 테스트</h1>
+
+  <form id="quizForm">
+    <div class="question">
+      <p>1. 집에 손님이 오기 전 가장 먼저 신경 쓰는 것은?</p>
+      <label><input type="radio" name="q1" value="positive"> 디퓨저 향</label><br>
+      <label><input type="radio" name="q1" value="neutral"> 청소</label><br>
+      <label><input type="radio" name="q1" value="negative"> 신경 안 씀</label>
+    </div>
+
+    <div class="question">
+      <p>2. 반려동물 배변 후 얼마나 자주 정리하나요?</p>
+      <label><input type="radio" name="q2" value="positive"> 바로</label><br>
+      <label><input type="radio" name="q2" value="neutral"> 하루 1~2번</label><br>
+      <label><input type="radio" name="q2" value="pet"> 며칠에 한 번</label>
+    </div>
+
+    <div class="question">
+      <p>3. 평소 주변에서 “뭔가 냄새 나”라는 말을 들어본 적 있나요?</p>
+      <label><input type="radio" name="q3" value="positive"> 없음</label><br>
+      <label><input type="radio" name="q3" value="neutral"> 가끔</label><br>
+      <label><input type="radio" name="q3" value="negative"> 자주 들음</label>
+    </div>
+
+    <div class="question">
+      <p>4. 체취나 향수 관리 습관은 어떤가요?</p>
+      <label><input type="radio" name="q4" value="positive"> 매일</label><br>
+      <label><input type="radio" name="q4" value="neutral"> 일주일 2~3회</label><br>
+      <label><input type="radio" name="q4" value="body"> 거의 안 함</label>
+    </div>
+
+    <div class="question">
+      <p>5. 당신 집의 고정된 냄새를 표현한다면?</p>
+      <label><input type="radio" name="q5" value="positive"> 은은한 향</label><br>
+      <label><input type="radio" name="q5" value="neutral"> 청소기 냄새</label><br>
+      <label><input type="radio" name="q5" value="mold"> 꿉꿉함</label><br>
+      <label><input type="radio" name="q5" value="pet"> 반려동물 냄새</label>
+    </div>
+
+    <div class="question">
+      <p>6. 외출 후 집에 들어올 때 어떤 냄새가 가장 먼저 느껴지나요?</p>
+      <label><input type="radio" name="q6" value="positive"> 상쾌</label><br>
+      <label><input type="radio" name="q6" value="neutral"> 중립</label><br>
+      <label><input type="radio" name="q6" value="mold"> 퀴퀴함</label>
+    </div>
+
+    <div class="question">
+      <p>7. 반려동물 용품은 얼마나 자주 세탁하나요?</p>
+      <label><input type="radio" name="q7" value="positive"> 매주</label><br>
+      <label><input type="radio" name="q7" value="neutral"> 한 달에 한 번</label><br>
+      <label><input type="radio" name="q7" value="pet"> 거의 안 함</label>
+    </div>
+
+    <div class="question">
+      <p>8. 집 안에 곰팡이나 물때, 습기 자국을 본 적 있나요?</p>
+      <label><input type="radio" name="q8" value="positive"> 없다</label><br>
+      <label><input type="radio" name="q8" value="neutral"> 가끔</label><br>
+      <label><input type="radio" name="q8" value="mold"> 자주 있다</label>
+    </div>
+
+    <div class="question">
+      <p>9. 옷장이나 신발장 문을 주로 어떻게 두나요?</p>
+      <label><input type="radio" name="q9" value="positive"> 자주 열어 환기</label><br>
+      <label><input type="radio" name="q9" value="neutral"> 생각날 때만</label><br>
+      <label><input type="radio" name="q9" value="mold"> 항상 닫아둠</label>
+    </div>
+
+    <div class="question">
+      <p>10. 최근 집에서 “뭔가 냄새 나지 않나?”라고 생각한 적 있나요?</p>
+      <label><input type="radio" name="q10" value="positive"> 전혀 없음</label><br>
+      <label><input type="radio" name="q10" value="neutral"> 간혹</label><br>
+      <label><input type="radio" name="q10" value="body"> 자주 느낀다</label>
+    </div>
+
+    <button type="button" onclick="calculateResult()">결과 확인하기</button>
+  </form>
+
+  <div id="result" class="result"></div>
+
+  <script>
+    function calculateResult() {
+      const form = document.forms['quizForm'];
+      const score = { positive: 0, neutral: 0, pet: 0, body: 0, mold: 0, negative: 0 };
+
+      for (let i = 1; i <= 10; i++) {
+        const answer = form[`q${i}`].value;
+        score[answer]++;
+      }
+
+      let result = '';
+
+      if (score.pet >= 2) {
+        result = '<h2>🐾 반려동물 농후형</h2><p>반려동물 냄새가 일상에 강하게 배어 있어요. 전용 탈취제와 세심한 청소가 필요합니다.</p>';
+      } else if (score.mold >= 2) {
+        result = '<h2>🧣 곰팡이·습기 축적형</h2><p>집 구조나 습도 관리 부족으로 냄새가 축적되고 있어요. 제습기나 환기 루틴이 중요합니다.</p>';
+      } else if (score.body >= 2) {
+        result = '<h2>🧴 체취 잔류형</h2><p>체취 또는 향수의 농도가 집에 배어 있을 수 있어요. 향기 관리와 청결 루틴을 고려해보세요.</p>';
+      } else if (score.positive >= 5) {
+        result = '<h2>🌿 은은한 향기형</h2><p>청결하고 향기까지 조화를 이룬 이상적인 집이에요. 지금처럼 유지하세요!</p>';
+      } else if (score.positive >= 3) {
+        result = '<h2>🧼 관리 잘하는 타입</h2><p>청소와 체취 관리가 적절히 이루어지고 있어요. 생활 루틴이 잘 정돈되어 있네요.</p>';
+      } else {
+        result = '<h2>🏠 보통 중립형</h2><p>크게 나쁘지 않지만 냄새에 대한 자가 점검이 필요한 시점이에요. 간단한 향기 개선만으로도 인상이 달라질 수 있습니다.</p>';
+      }
+
+      document.getElementById('result').innerHTML = result;
+      document.getElementById('result').style.display = 'block';
+    }
+  </script>
+</body>
+</html>
